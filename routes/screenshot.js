@@ -6,13 +6,15 @@ const cloudinary = require("cloudinary").v2;
 
 const Pixel3 = puppeteer.devices["Pixel 3"];
 
-router.get("/", async function (req, res, next) {
+router.get("/:url", async function (req, res, next) {
+  console.log("URL", req.params.url);
+  const URL = `https://${req.params.url}/`;
   try {
     // mobile
     const browserMobile = await puppeteer.launch();
     const pageMobile = await browserMobile.newPage();
     await pageMobile.emulate(Pixel3);
-    await pageMobile.goto("https://hero-nft.vercel.app/");
+    await pageMobile.goto(URL);
     const imageMobile = await pageMobile.screenshot({ type: "jpeg" });
     await browserMobile.close();
 
@@ -23,7 +25,7 @@ router.get("/", async function (req, res, next) {
       width: 1920,
       height: 1080,
     });
-    await pageDesktop.goto("https://hero-nft.vercel.app/");
+    await pageDesktop.goto(URL);
     const imageDesktop = await pageDesktop.screenshot({ type: "jpeg" });
 
     // cloudinary
