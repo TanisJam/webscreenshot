@@ -2,4 +2,12 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}. This is the index page.
+  p Welcome to #{title}.
+
+  p This app lets you take a screenshot and return the url of the image uploaded to cloudinary
+
+  h3 Usage:
+
+    p Just make a GET request to /screenshot/:url
+
+    code Example: http://localhost:3000/screenshot/www.google.com.ar
