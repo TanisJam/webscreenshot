@@ -11,7 +11,9 @@ router.get("/:url", async function (req, res, next) {
   const URL = `https://${req.params.url}/`;
   try {
     // mobile
-    const browserMobile = await puppeteer.launch();
+    const browserMobile = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
     const pageMobile = await browserMobile.newPage();
     await pageMobile.emulate(Pixel3);
     await pageMobile.goto(URL);
@@ -19,7 +21,9 @@ router.get("/:url", async function (req, res, next) {
     await browserMobile.close();
 
     // desktop
-    const browserDesktop = await puppeteer.launch();
+    const browserDesktop = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
     const pageDesktop = await browserDesktop.newPage();
     await pageDesktop.setViewport({
       width: 1920,
@@ -34,7 +38,8 @@ router.get("/:url", async function (req, res, next) {
       tags: "mobile",
       folder: "screenshots",
     });
-    const uploadStr2 = "data:image/jpg;base64," + imageDesktop.toString("base64");
+    const uploadStr2 =
+      "data:image/jpg;base64," + imageDesktop.toString("base64");
     const desktopUploaded = await cloudinary.uploader.upload(uploadStr2, {
       tags: "desktop",
       folder: "screenshots",
