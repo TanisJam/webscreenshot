@@ -15,8 +15,8 @@ const parseUrl = function (url) {
 const Pixel3 = puppeteer.devices["Pixel 3"];
 
 router.get("/", async function (req, res, next) {
-  console.log("URL", req.params.url);
   const URL = parseUrl(req.query.url);
+  console.log(URL);
   try {
     // mobile
     const browserMobile = await puppeteer.launch({
