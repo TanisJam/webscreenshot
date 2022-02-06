@@ -3,10 +3,10 @@ const router = express.Router();
 const puppeteer = require("puppeteer");
 const cloudinary = require("cloudinary").v2;
 
-const parseUrl = function(url) {
-  url = decodeURIComponent(url)
+const parseUrl = function (url) {
+  url = decodeURIComponent(url);
   if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
-      url = 'http://' + url;
+    url = "http://" + url;
   }
 
   return url;
@@ -16,7 +16,7 @@ const Pixel3 = puppeteer.devices["Pixel 3"];
 
 router.get("/", async function (req, res, next) {
   console.log("URL", req.params.url);
-  const URL = parseUrl(req.query.url);;
+  const URL = parseUrl(req.query.url);
   try {
     // mobile
     const browserMobile = await puppeteer.launch({
@@ -63,6 +63,7 @@ router.get("/", async function (req, res, next) {
     });
   } catch (error) {
     console.log(error);
+    res.send({ error: error });
   }
 });
 
