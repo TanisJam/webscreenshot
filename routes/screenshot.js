@@ -20,16 +20,19 @@ router.get("/", async function (req, res, next) {
   try {
     // mobile
     const browserMobile = await puppeteer.launch({
+      headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const pageMobile = await browserMobile.newPage();
     await pageMobile.emulate(Pixel3);
     await pageMobile.goto(URL);
+    await pageMobile.waitFor(500);
     const imageMobile = await pageMobile.screenshot({ type: "jpeg" });
     await browserMobile.close();
 
     // desktop
     const browserDesktop = await puppeteer.launch({
+      headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const pageDesktop = await browserDesktop.newPage();
@@ -38,6 +41,7 @@ router.get("/", async function (req, res, next) {
       height: 1080,
     });
     await pageDesktop.goto(URL);
+    await pageDesktop.waitFor(1000);
     const imageDesktop = await pageDesktop.screenshot({ type: "jpeg" });
 
     // cloudinary
